@@ -1,8 +1,13 @@
 import { Router } from "express";
-import { signUp } from "../controllers/auth";
+import { login, signUp } from "../controllers/auth";
+import { SignUpValidation } from "../middlewares/validations/signUpValidation";
+import { LoginValidation } from "../middlewares/validations/loginValidation";
+import { errorHandler } from "../error-handler";
 
-const authRoutes:Router = Router()
+const authRoutes: Router = Router();
 
-authRoutes.post('/sign-up', signUp)
+authRoutes.post("/sign-up", SignUpValidation, errorHandler(signUp));
 
-export default authRoutes
+authRoutes.post("/login", LoginValidation, errorHandler(login));
+
+export default authRoutes;
